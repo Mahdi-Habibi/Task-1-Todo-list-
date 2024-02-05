@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Todo List</title>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="./css/all.min.css">
+        <link rel="stylesheet" href="./css/solid.min.css">
+    </head>
+    <body>
+        <!-- header of the page -->
+        <div class="container">
+            <header>
+                <h1 class="page-header">SIMPLE TODO LIST</h1>
+            </header>
+        </div>
+        <!-- action buttons -->
+        <div class="container">
+            <ul class="action-buttons">
+                <li class="new-task-button">
+                    <a href="#">
+                        <i class="fa-solid fa-plus"></i>New Task</a>
+                </li>
+                <li class="filter-button">
+                    <a href="#">
+                        <i class="fa-solid fa-filter"></i>Filters</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Tasks list -->
+        <div class="container">
+            <div class="tasks">
+                <div class="task-container">
+                    <label for="customCheckbox checkBox1" class="task-box" id="taskBox">
+                        <input type="checkbox" name="To-do" id="customCheckbox checkBox1">
+                        <p>Lorem ipsum dolor sit</p>
+                    </label>
+                    <div class="task-delete" onclick="deleteTask">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

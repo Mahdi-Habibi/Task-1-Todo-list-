@@ -1,0 +1,170 @@
+// general styles
+// *
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+// fonts
+@font-face {
+    font-family: fontawesome;
+    src: url(../webfonts/fontawesome/fa-solid-900.ttf) format('ttf');
+    src: url(../webfonts/fontawesome/fa-solid-900.woff2) format('woff2');
+}
+// colors list
+$color1: #F7F7F7;
+$color2: #EEEEEE;
+$color3: #929AAB;
+$color4: #393E46;
+// animations
+$transition: all 0.5s;
+@mixin transitioned($element) {
+    transition: $element .5s;
+    -webkit-transition: $element .5s;
+    -moz-transition: $element .5s;
+    -ms-transition: $element .5s;
+    -o-transition: $element .5s;
+}
+// container
+@media (min-width: 568px) {
+    .container {
+        width: 550px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+// links
+a {
+    text-decoration: none;
+}
+// lists
+ol,
+ul {
+    list-style: none;
+}
+// icons
+i {
+    font-family: fontawesome;
+}
+// body
+body {
+    background-color: $color1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 80px 0;
+    color: $color4;
+}
+// borders
+@mixin bordered($color) {
+    border: 1px solid $color;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+// header
+header {
+    padding: 16px 0;
+    border-bottom: 1px solid $color2;
+}
+.page-header {
+    color: $color4;
+    font-size: 48px;
+}
+// action buttons
+.action-buttons {
+    display: flex;
+    align-items: center;
+    padding: 48px;
+    li {
+        margin-right: 32px;
+        a {
+            i {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+.new-task-button {
+    a {
+        padding: 16px;
+        color: $color2;
+        background-color: $color4;
+        @include bordered($color4);
+        @include transitioned(all);
+        &:hover {
+            color: $color4;
+            background-color: transparent;
+        }
+    }
+}
+.filter-button {
+    a {
+        padding: 16px;
+        color: $color3;
+        @include bordered($color3);
+        @include transitioned(all);
+        &:hover {
+            border-color: $color4;
+            color: $color4;
+        }
+}
+}
+// tasks
+.tasks {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 48px;
+}
+.task-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin-top: 32px;
+}
+.task-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 32px;
+    @include bordered($color3);
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    box-shadow: 0 0 10px 3px $color2;
+    cursor: pointer;
+    user-select: none;
+    @include transitioned(all);
+    &:hover {
+        ~ .task-delete {
+            width: 48px;
+            visibility: visible;
+        }
+}
+}
+.task-delete {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    @include transitioned(all);
+    @include bordered($color3);
+    background-color: red;
+}
