@@ -12,35 +12,38 @@
         <!-- header of the page -->
         <div class="container">
             <header>
-                <h1 class="page-header">SIMPLE TODO LIST</h1>
+                <h1 class="page-header">SIMPLE TO-DO LIST</h1>
             </header>
         </div>
+        <!-- overlay -->
+        <div class="overlay"></div>
         <!-- action buttons -->
         <div class="container">
             <ul class="action-buttons">
-                <li class="new-task-button">
-                    <a href="#">
-                        <i class="fa-solid fa-plus"></i>New Task</a>
-                </li>
-                <li class="filter-button">
-                    <a href="#">
-                        <i class="fa-solid fa-filter"></i>Filters</a>
+                <li>
+                    <button type="button" class="new-task-button"><i class="fa-solid fa-plus"></i>New Task</button>
                 </li>
             </ul>
+            <div class="new-task-popup">
+                <input type="text" name="new-task" id="newTask" placeholder="Please add a new task!">
+                <button type="submit" id="submitBtn">Add</button>
+            </div>
         </div>
         <!-- Tasks list -->
         <div class="container">
             <div class="tasks">
                 <div class="task-container">
-                    <label for="customCheckbox checkBox1" class="task-box" id="taskBox">
-                        <input type="checkbox" name="To-do" id="customCheckbox checkBox1">
-                        <p>Lorem ipsum dolor sit</p>
+                    <input type="checkbox" name="To-do" id="customCheckbox checkBox1">
+                    <label for="customCheckbox checkBox1" class="task-box">
+                        Lorem ipsum dolor sit
                     </label>
-                    <div class="task-delete" onclick="deleteTask">
-                        <i class="fa-solid fa-trash"></i>
+                    <div class="task-delete delete-btn">
+                        delete
                     </div>
                 </div>
             </div>
         </div>
+        <script src="./js/app.min.js"></script>
+        <script src="./js/solid.min.js"></script>
     </body>
 </html>

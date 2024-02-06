@@ -6,9 +6,32 @@
 
 @font-face {
   font-family: fontawesome;
-  src: url(../webfonts/fontawesome/fa-solid-900.ttf) format("ttf");
-  src: url(../webfonts/fontawesome/fa-solid-900.woff2) format("woff2");
+  src: url("../webfonts/fontawesome/fa-solid-900.ttf") format("ttf");
+  src: url("../webfonts/fontawesome/fa-solid-900.woff2") format("woff2");
 }
+@font-face {
+  font-family: halton;
+  src: url(../webfonts/Halton/Halton_regular.otf) format("otf");
+}
+@font-face {
+  font-family: halton-bold;
+  src: url(../webfonts/Halton/Halton_bold.otf) format("otf");
+}
+@font-face {
+  font-family: halton-light;
+  src: url(../webfonts/Halton/Halton_light.otf) format("otf");
+}
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1110;
+}
+
 @media (min-width: 568px) {
   .container {
     width: 550px;
@@ -37,7 +60,12 @@ i {
   font-family: fontawesome;
 }
 
+input {
+  outline: 0;
+}
+
 body {
+  font-family: halton;
   background-color: #F7F7F7;
   display: flex;
   flex-direction: column;
@@ -64,11 +92,8 @@ header {
 .action-buttons li {
   margin-right: 32px;
 }
-.action-buttons li a i {
-  margin-right: 5px;
-}
 
-.new-task-button a {
+.new-task-button {
   padding: 16px;
   color: #EEEEEE;
   background-color: #393E46;
@@ -78,35 +103,73 @@ header {
   -moz-border-radius: 16px;
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
 }
-.new-task-button a:hover {
+.new-task-button:hover {
   color: #393E46;
   background-color: transparent;
 }
+.new-task-button i {
+  margin-right: 5px;
+}
 
-.filter-button a {
-  padding: 16px;
-  color: #929AAB;
+.new-task-popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  background-color: #EEEEEE;
+  width: auto;
+  height: 96px;
+  padding: 32px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+  z-index: 1111;
+}
+.new-task-popup input {
+  width: 200px;
+  margin-right: 16px;
+  padding: 7px;
+  background-color: transparent;
+  color: #393E46;
   border: 1px solid #929AAB;
   border-radius: 16px;
   -webkit-border-radius: 16px;
   -moz-border-radius: 16px;
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
 }
-.filter-button a:hover {
-  border-color: #393E46;
-  color: #393E46;
+.new-task-popup input::-moz-placeholder {
+  color: #929AAB;
+}
+.new-task-popup input::placeholder {
+  color: #929AAB;
+}
+.new-task-popup button {
+  width: 64px;
+  padding: 7px;
+  background-color: #393E46;
+  color: #EEEEEE;
+  text-align: center;
+  border: 1px solid #393E46;
+  border-radius: 16px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
 }
 
 .tasks {
@@ -121,13 +184,8 @@ header {
   display: flex;
   width: 100%;
   margin-top: 32px;
-}
-
-.task-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
   padding: 32px;
+  overflow: hidden;
   border: 1px solid #929AAB;
   border-radius: 16px;
   border-radius: 16px;
@@ -136,40 +194,46 @@ header {
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
   box-shadow: 0 0 10px 3px #EEEEEE;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+}
+.task-container:hover .task-delete {
+  width: 48px;
+  visibility: visible;
+  padding: 7px;
+}
+
+.task-box {
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-}
-.task-box:hover ~ .task-delete {
-  width: 48px;
-  visibility: visible;
+  margin-left: 16px;
 }
 
 .task-delete {
   position: absolute;
   right: 0;
+  top: 0;
   height: 100%;
   width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   visibility: hidden;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  border: 1px solid #929AAB;
-  border-radius: 16px;
-  -webkit-border-radius: 16px;
-  -moz-border-radius: 16px;
-  -ms-border-radius: 16px;
-  -o-border-radius: 16px;
-  background-color: red;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  background-color: #393E46;
+  color: #F7F7F7;
+  cursor: pointer;
+}
+
+.fade-out {
+  opacity: 0;
 }/*# sourceMappingURL=styles.css.map */
