@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Todo List</title>
-        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="./css/styles.min.css">
         <link rel="stylesheet" href="./css/all.min.css">
         <link rel="stylesheet" href="./css/solid.min.css">
     </head>
@@ -21,21 +21,36 @@
         <div class="container">
             <ul class="action-buttons">
                 <li>
-                    <button type="button" class="new-task-button"><i class="fa-solid fa-plus"></i>New Task</button>
+                    <button type="button" class="new-task-button">
+                        <i class="fa-solid fa-plus"></i>New Task</button>
                 </li>
             </ul>
+            <!-- new task popup -->
             <div class="new-task-popup">
-                <input type="text" name="new-task" id="newTask" placeholder="Please add a new task!">
-                <button type="submit" id="submitBtn">Add</button>
+                <input
+                    type="text"
+                    name="new-task"
+                    id="new-task"
+                    placeholder="Please add a new task!">
+                <button type="submit" id="submit-btn">Add</button>
             </div>
         </div>
         <!-- Tasks list -->
         <div class="container">
             <div class="tasks">
                 <div class="task-container">
-                    <input type="checkbox" name="To-do" id="customCheckbox checkBox1">
-                    <label for="customCheckbox checkBox1" class="task-box">
-                        Lorem ipsum dolor sit
+                    <input type="checkbox" name="To-do" id="customCheckbox checkBoxSample">
+                    <label for="customCheckbox checkBoxSample" class="task-box">
+                        Finish the task!!!
+                    </label>
+                    <div class="task-delete delete-btn">
+                        delete
+                    </div>
+                </div>
+                <div class="task-container">
+                    <input type="checkbox" name="To-do" id="customCheckbox checkBoxSample1">
+                    <label for="customCheckbox checkBoxSample1" class="task-box">
+                        .ظرف ها رو بشور
                     </label>
                     <div class="task-delete delete-btn">
                         delete

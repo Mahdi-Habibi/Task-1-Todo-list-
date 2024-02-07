@@ -6,30 +6,43 @@
     padding: 0;
 }
 // fonts
+// fontawesome
 @font-face {
     font-family: fontawesome;
-    src: url("../webfonts/fontawesome/fa-solid-900.ttf") format('ttf');
+    src: url("../webfonts/fontawesome/fa-solid-900.ttf") format('truetype');
     src: url("../webfonts/fontawesome/fa-solid-900.woff2") format('woff2');
 }
+$font-icon: fontawesome;
+// open sans
 @font-face {
-    font-family: halton;
-    src: url(../webfonts/Halton/Halton_regular.otf) format('otf');
+    font-family: open-sans;
+    src: url("../webfonts/open_sans/OpenSans-Regular.ttf") format('truetype');
 }
 @font-face {
-    font-family: halton-bold;
-    src: url(../webfonts/Halton/Halton_bold.otf) format('otf');
+    font-family: open-sans-light;
+    src: url("../webfonts/open_sans/OpenSans-Light.ttf") format('truetype');
 }
 @font-face {
-    font-family: halton-light;
-    src: url(../webfonts/Halton/Halton_light.otf) format('otf');
+    font-family: open-sans-bold;
+    src: url("../webfonts/open_sans/OpenSans-Bold.ttf") format('truetype');
 }
+$font: open-sans;
+$font-light: open-sans-light;
+$font-bold: open-sans-bold;
+// yekan
+@font-face {
+    font-family: yekan;
+    src: url("../webfonts/yekan/yekan-regular.eot") format('opentype');
+    src: url("../webfonts/yekan/yekan-regular.ttf") format('truetype');
+    src: url("../webfonts/yekan/yekan-regular.woff") format('woff');
+}
+$font-per: yekan;
 // colors list
 $color1: #F7F7F7;
 $color2: #EEEEEE;
 $color3: #929AAB;
 $color4: #393E46;
 // animations
-$transition: all 0.5s;
 @mixin transitioned($element) {
     transition: $element .5s ease;
     -webkit-transition: $element .5s ease;
@@ -75,7 +88,7 @@ ul {
 }
 // icons
 i {
-    font-family: fontawesome;
+    font-family: $font-icon;
 }
 // inputs 
 input {
@@ -83,7 +96,7 @@ input {
 }
 // body
 body {
-    font-family: halton;
+    font-family: $font, $font-per;
     background-color: $color1;
     display: flex;
     flex-direction: column;
@@ -99,6 +112,11 @@ body {
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
+}
+// button animation
+@mixin btn-hovered {
+    color: $color4;
+    background-color: transparent;
 }
 // header
 header {
@@ -125,8 +143,7 @@ header {
     @include bordered($color4);
     @include transitioned(all);
     &:hover {
-        color: $color4;
-        background-color: transparent;
+        @include btn-hovered();
     }
     i {
         margin-right: 5px;
@@ -135,6 +152,7 @@ header {
 // new task popup
 .new-task-popup {
     display: none;
+    opacity: 0;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -153,10 +171,11 @@ header {
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
     z-index: 1111;
+    @include transitioned(all);
     input {
         width: 200px;
         margin-right: 16px;
-        padding: 7px;
+        padding: 7px 7px 7px 14px;
         background-color: transparent;
         color: $color4;
         @include bordered($color3);
@@ -176,6 +195,16 @@ header {
         -moz-border-radius: 16px;
         -ms-border-radius: 16px;
         -o-border-radius: 16px;
+        cursor: pointer;
+        @include transitioned(all);
+        &:hover {
+            @include btn-hovered();
+        }
+    }
+    // animation show
+    &.show {
+        display: block;
+        opacity: 1;
     }
 }
 // tasks
@@ -208,10 +237,22 @@ header {
         }
     }
 }
+
+// task fade out
+.fade-out {
+    opacity: 0;
+}
 .task-box {
     cursor: pointer;
     user-select: none;
-    margin-left: 16px;
+    margin-left: 8px;
+    color: $color4;
+    text-decoration: none;
+    @include transitioned(text-decoration);
+    &.checked {
+        color: $color3;
+        text-decoration: line-through;
+    }
 }
 .task-delete {
     position: absolute;
@@ -222,13 +263,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: $font-light;
+    font-size: 12px;
     visibility: hidden;
     @include transitioned(all);
     background-color: $color4;
     color: $color1;
     cursor: pointer;
-}
-
-.fade-out {
-    opacity: 0;
 }

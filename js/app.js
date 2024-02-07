@@ -1,45 +1,53 @@
-// remove task-container when clicks on the delet button
 document.addEventListener("DOMContentLoaded", () => {
+    // Remove task-container when clicked on the delete button
     const tasksList = document.querySelector('.tasks');
 
     tasksList.addEventListener('click', (event) => {
-        const deleteButton = event.target.closest('.delete-btn');
+        const deleteButton = event
+            .target
+            .closest('.delete-btn');
         if (deleteButton) {
             const taskContainer = deleteButton.closest('.task-container');
             if (taskContainer) {
-                taskContainer.classList.add('fade-out');
-                taskContainer.remove();
+                taskContainer
+                    .classList
+                    .add('fade-out');
+                setTimeout(() => {
+                    taskContainer.remove();
+                }, 500);
             }
         }
     });
-});
 
-
-// pop up and addinga new task
-document.addEventListener('DOMContentLoaded', () => {
-    const newTaskButton = document.querySelector('.new-task-button');
+    // Pop up and adding a new task
+    const newTaskBtn = document.querySelector('.new-task-button');
     const newTaskPopup = document.querySelector('.new-task-popup');
-    const submitButton = document.getElementById('submitBtn');
-    const tasksList = document.querySelector('.tasks');
+    const submitBtn = document.getElementById('submit-btn');
     const overlay = document.querySelector('.overlay');
-    const newTaskInput = document.getElementById('newTask');
+    const newTaskInput = document.getElementById('new-task');
     let taskIdCounter = 1;
 
-    newTaskButton.addEventListener('click', (event) => {
+    newTaskBtn.addEventListener('click', (event) => {
         event.preventDefault();
-        newTaskPopup.style.display = 'block';
         overlay.style.display = 'block';
         newTaskInput.focus();
+        setTimeout(() => {
+            newTaskPopup
+                .classList
+                .add('show');
+        }, 10);
     });
 
     document.addEventListener('click', (event) => {
-        if (!event.target.closest('.new-task-popup') && event.target !== newTaskButton) {
-            newTaskPopup.style.display = 'none';
+        if (!event.target.closest('.new-task-popup') && event.target !== newTaskBtn) {
+            newTaskPopup
+                .classList
+                .remove('show');
             overlay.style.display = 'none';
         }
     });
 
-    submitButton.addEventListener('click', addTask);
+    submitBtn.addEventListener('click', addTask);
 
     newTaskInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -48,26 +56,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function addTask() {
-        const newTaskInputValue = newTaskInput.value.trim();
+        const newTaskInputValue = newTaskInput
+            .value
+            .trim();
         if (newTaskInputValue !== '') {
             const taskId = `customCheckbox${taskIdCounter}`;
+            const tasksList = document.querySelector('.tasks');
             const taskContainer = document.createElement('div');
-            taskContainer.classList.add('task-container');
+            taskContainer
+                .classList
+                .add('task-container');
             taskContainer.innerHTML = `
-                <input type="checkbox" name="To-do" id="${taskId}" class="customCheckbox">
-                <label for="${taskId}" class="task-box">${newTaskInputValue}</label>
+                <input type="checkbox" name="To-do" id="${taskId} customCheckbox" class="customCheckbox">
+                <label for="${taskId} customCheckbox" class="task-box">${newTaskInputValue}</label>
                 <div class="task-delete delete-btn">
-                    <i class="fa-solid fa-trash"></i>
+                    delete
                 </div>
             `;
             tasksList.appendChild(taskContainer);
             taskIdCounter++;
             newTaskInput.value = '';
-            newTaskPopup.style.display = 'none';
+            newTaskPopup
+                .classList
+                .remove('show');
             overlay.style.display = 'none';
+
+            // Attach event listener to the new checkbox
+            const checkbox = taskContainer.querySelector('input[type="checkbox"]');
+            const taskBox = taskContainer.querySelector('.task-box');
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    taskBox
+                        .classList
+                        .add('checked');
+                } else {
+                    taskBox
+                        .classList
+                        .remove('checked');
+                }
+            });
         } else {
             alert('Please enter a task!');
         }
     }
-});
 
+    // Toggle the label of task
+    const checkboxes = document.querySelectorAll(
+        '.task-container input[type="checkbox"]'
+    );
+
+    checkboxes.forEach(checkbox => {
+        const taskBox = checkbox.nextElementSibling;
+
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                taskBox
+                    .classList
+                    .add('checked');
+            } else {
+                taskBox
+                    .classList
+                    .remove('checked');
+            }
+        });
+    });
+});

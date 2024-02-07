@@ -6,20 +6,26 @@
 
 @font-face {
   font-family: fontawesome;
-  src: url("../webfonts/fontawesome/fa-solid-900.ttf") format("ttf");
+  src: url("../webfonts/fontawesome/fa-solid-900.ttf") format("truetype");
   src: url("../webfonts/fontawesome/fa-solid-900.woff2") format("woff2");
 }
 @font-face {
-  font-family: halton;
-  src: url(../webfonts/Halton/Halton_regular.otf) format("otf");
+  font-family: open-sans;
+  src: url("../webfonts/open_sans/OpenSans-Regular.ttf") format("truetype");
 }
 @font-face {
-  font-family: halton-bold;
-  src: url(../webfonts/Halton/Halton_bold.otf) format("otf");
+  font-family: open-sans-light;
+  src: url("../webfonts/open_sans/OpenSans-Light.ttf") format("truetype");
 }
 @font-face {
-  font-family: halton-light;
-  src: url(../webfonts/Halton/Halton_light.otf) format("otf");
+  font-family: open-sans-bold;
+  src: url("../webfonts/open_sans/OpenSans-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: yekan;
+  src: url("../webfonts/yekan/yekan-regular.eot") format("opentype");
+  src: url("../webfonts/yekan/yekan-regular.ttf") format("truetype");
+  src: url("../webfonts/yekan/yekan-regular.woff") format("woff");
 }
 .overlay {
   display: none;
@@ -65,7 +71,7 @@ input {
 }
 
 body {
-  font-family: halton;
+  font-family: open-sans, yekan;
   background-color: #F7F7F7;
   display: flex;
   flex-direction: column;
@@ -119,6 +125,7 @@ header {
 
 .new-task-popup {
   display: none;
+  opacity: 0;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -137,11 +144,16 @@ header {
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
   z-index: 1111;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
 }
 .new-task-popup input {
   width: 200px;
   margin-right: 16px;
-  padding: 7px;
+  padding: 7px 7px 7px 14px;
   background-color: transparent;
   color: #393E46;
   border: 1px solid #929AAB;
@@ -170,6 +182,20 @@ header {
   -moz-border-radius: 16px;
   -ms-border-radius: 16px;
   -o-border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+}
+.new-task-popup button:hover {
+  color: #393E46;
+  background-color: transparent;
+}
+.new-task-popup.show {
+  display: block;
+  opacity: 1;
 }
 
 .tasks {
@@ -206,12 +232,29 @@ header {
   padding: 7px;
 }
 
+.fade-out {
+  opacity: 0;
+}
+
 .task-box {
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-  margin-left: 16px;
+  margin-left: 8px;
+  color: #393E46;
+  text-decoration: none;
+  transition: -webkit-text-decoration 0.5s ease;
+  transition: text-decoration 0.5s ease;
+  transition: text-decoration 0.5s ease, -webkit-text-decoration 0.5s ease;
+  -webkit-transition: text-decoration 0.5s ease;
+  -moz-transition: text-decoration 0.5s ease;
+  -ms-transition: text-decoration 0.5s ease;
+  -o-transition: text-decoration 0.5s ease;
+}
+.task-box.checked {
+  color: #929AAB;
+  text-decoration: line-through;
 }
 
 .task-delete {
@@ -223,6 +266,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: open-sans-light;
+  font-size: 12px;
   visibility: hidden;
   transition: all 0.5s ease;
   -webkit-transition: all 0.5s ease;
@@ -232,8 +277,4 @@ header {
   background-color: #393E46;
   color: #F7F7F7;
   cursor: pointer;
-}
-
-.fade-out {
-  opacity: 0;
 }/*# sourceMappingURL=styles.css.map */
