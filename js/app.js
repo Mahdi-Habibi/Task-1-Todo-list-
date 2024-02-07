@@ -1,7 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Remove task-container when clicked on the delete button
     const tasksList = document.querySelector('.tasks');
+    let tasks = [];
 
+    // Load tasks from local storage
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+        tasks = JSON.parse(savedTasks);
+        tasks.forEach(task => {
+            tasksList.appendChild(createTaskElement(task));
+        });
+    }
+    // Remove task-container when clicked on the delete
     tasksList.addEventListener('click', (event) => {
         const deleteButton = event
             .target
@@ -9,23 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
         if (deleteButton) {
             const taskContainer = deleteButton.closest('.task-container');
             if (taskContainer) {
+                const taskId = taskContainer.dataset.taskId;
+                tasks = tasks.filter(task => task.id !== taskId);
                 taskContainer
                     .classList
                     .add('fade-out');
                 setTimeout(() => {
                     taskContainer.remove();
+                    saveTasksToLocalStorage();
                 }, 500);
             }
         }
     });
-
     // Pop up and adding a new task
     const newTaskBtn = document.querySelector('.new-task-button');
     const newTaskPopup = document.querySelector('.new-task-popup');
-    const submitBtn = document.getElementById('submit-btn');
     const overlay = document.querySelector('.overlay');
     const newTaskInput = document.getElementById('new-task');
-    let taskIdCounter = 1;
 
     newTaskBtn.addEventListener('click', (event) => {
         event.preventDefault();
@@ -47,6 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    const submitBtn = document.getElementById('submit-btn');
+
     submitBtn.addEventListener('click', addTask);
 
     newTaskInput.addEventListener('keydown', (event) => {
@@ -60,56 +71,69 @@ document.addEventListener("DOMContentLoaded", () => {
             .value
             .trim();
         if (newTaskInputValue !== '') {
-            const taskId = `customCheckbox${taskIdCounter}`;
-            const tasksList = document.querySelector('.tasks');
-            const taskContainer = document.createElement('div');
-            taskContainer
-                .classList
-                .add('task-container');
-            taskContainer.innerHTML = `
-                <input type="checkbox" name="To-do" id="${taskId} customCheckbox" class="customCheckbox">
-                <label for="${taskId} customCheckbox" class="task-box">${newTaskInputValue}</label>
-                <div class="task-delete delete-btn">
-                    delete
-                </div>
-            `;
-            tasksList.appendChild(taskContainer);
-            taskIdCounter++;
+            const task = {
+                id: `task${Date.now()}`,
+                name: newTaskInputValue,
+                checked: false
+            };
+            tasks.push(task);
+            tasksList.appendChild(createTaskElement(task));
+            saveTasksToLocalStorage();
             newTaskInput.value = '';
             newTaskPopup
                 .classList
                 .remove('show');
             overlay.style.display = 'none';
-
-            // Attach event listener to the new checkbox
-            const checkbox = taskContainer.querySelector('input[type="checkbox"]');
-            const taskBox = taskContainer.querySelector('.task-box');
-
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    taskBox
-                        .classList
-                        .add('checked');
-                } else {
-                    taskBox
-                        .classList
-                        .remove('checked');
-                }
-            });
         } else {
             alert('Please enter a task!');
         }
     }
+    // Attach event listener to the new checkbox
+    function createTaskElement(task) {
+        const taskContainer = document.createElement('div');
+        taskContainer
+            .classList
+            .add('task-container');
+        taskContainer.dataset.taskId = task.id;
+        taskContainer.innerHTML = `
+            <input type="checkbox" name="To-do" id="${task.id}" class="customCheckbox" ${task.checked
+            ? 'checked'
+            : ''}>
+            <label for="${task.id}" class="task-box">${task.name}</label>
+            <div class="task-delete delete-btn">
+                delete
+            </div>
+        `;
+        const checkbox = taskContainer.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', () => {
+            task.checked = checkbox.checked;
+            saveTasksToLocalStorage();
+            if (checkbox.checked) {
+                taskContainer
+                    .querySelector('.task-box')
+                    .classList
+                    .add('checked');
+            } else {
+                taskContainer
+                    .querySelector('.task-box')
+                    .classList
+                    .remove('checked');
+            }
+        });
+        return taskContainer;
+    }
+
+    function saveTasksToLocalStorage() {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
 
     // Toggle the label of task
-    const checkboxes = document.querySelectorAll(
+    const existingCheckboxes = document.querySelectorAll(
         '.task-container input[type="checkbox"]'
     );
-
-    checkboxes.forEach(checkbox => {
-        const taskBox = checkbox.nextElementSibling;
-
+    existingCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
+            const taskBox = checkbox.nextElementSibling;
             if (checkbox.checked) {
                 taskBox
                     .classList
@@ -118,6 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 taskBox
                     .classList
                     .remove('checked');
+            }
+            const taskId = checkbox.parentElement.dataset.taskId;
+            const taskIndex = tasks.findIndex(task => task.id === taskId);
+            if (taskIndex !== -1) {
+                tasks[taskIndex].checked = checkbox.checked;
+                saveTasksToLocalStorage();
             }
         });
     });
